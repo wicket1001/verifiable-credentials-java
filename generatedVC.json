@@ -1,0 +1,36 @@
+{
+  "@context": [
+    "https://www.w3.org/2018/credentials/v1",
+    "https://essif.europa.eu/schemas/vc/2020/v1"
+  ],
+  "issuer": "did:ebsi:FqiyP831qX5xUD66CCAKMDs225QNb9Sp3UHvbJ9tSDn6",
+  "type": [
+    "VerifiableCredential",
+    "VerifiableAttestation",
+    "DiplomaCredential"
+  ],
+  "credentialSubject": {
+    "id": "did:key:z6Mki97ezMnXisk1iAyvVr4rJkNrWRBoR8f5viPJ62Jw6s98",
+    "type": [
+      "Student"
+    ],
+    "studyProgram": "Master Studies in Strategy, Innovation, and Management Control",
+    "immatriculationNumber": "00000000",
+    "currentGivenName": "Eva",
+    "currentFamilyName": "Musterfrau",
+    "learningAchievement": "Master's Degree",
+    "dateOfBirth": "1999-10-22T00:00:00.000Z",
+    "dateOfAchievement": "2021-01-04T00:00:00.000Z",
+    "overallEvaluation": "passed with honors",
+    "eqfLevel": "http://data.europa.eu/snb/eqf/7",
+    "targetFrameworkName": "European Qualifications Framework for lifelong learning - (2008/C 111/01)"
+  },
+  "issuanceDate": "2021-08-31T13:43:24Z",
+  "proof": {
+    "type": "EcdsaSecp256k1Signature2019",
+    "created": "2021-08-31T13:43:24Z",
+    "proofPurpose": "assertionMethod",
+    "verificationMethod": "did:ebsi:FqiyP831qX5xUD66CCAKMDs225QNb9Sp3UHvbJ9tSDn6#keys-1",
+    "jws": "eyJiNjQiOmZhbHNlLCJjcml0IjpbImI2NCJdLCJhbGciOiJFUzI1NksifQ..naVlGwyAkZE7k8vkQLVud9hlu8OJHL4ElKKa1bj3jZR6q8JwdD1hkpWinoVh8T7DIJRrlj0CJvYnCLYLm6-W5A"
+  }
+}
