@@ -40,7 +40,9 @@ public class TestEBSIDiplomaCredential extends CredentialsHelper {
 
         VerifiableCredential verifiableCredential = VerifiableCredential.builder()
                 .contexts(Arrays.asList(
-                        URI.create("https://danubetech.github.io/ebsi4austria-examples/context/essif-schemas-vc-2020-v1.jsonld") //,
+                        URI.create("https://danubetech.github.io/ebsi4austria-examples/context/essif-schemas-vc-2020-v1.jsonld"),
+                        // URI.create("https://wicket1001.github.io/ebsi4austria-examples/context/essif-schemas-vc-2020-v2.jsonld"),
+                        URI.create("https://www.w3.org/ns/did/v1")
                         // URI.create("https://bach.wu.ac.at/static/app/ebsi/wu-schema-vc-2020-v1.jsonld")
                         ))
                 .types(Arrays.asList("VerifiableAttestation", "DiplomaCredential"))
@@ -52,7 +54,8 @@ public class TestEBSIDiplomaCredential extends CredentialsHelper {
         ConfigurableDocumentLoader documentLoader = (ConfigurableDocumentLoader) verifiableCredential.getDocumentLoader();
         documentLoader.setEnableHttps(true);
 
-        EcdsaSecp256k1Signature2019LdSigner signer = getSigner2019(privateKeyIssuer);  // TestEBSIDiplomaCredential call
+        EcdsaSecp256k1Signature2019LdSigner signer = getSigner2019(privateKeyIssuer);
+        // Ed25519Signature2020LdSigner signer = getSigner2020();  // TestEBSIDiplomaCredential call, privateKeyIssuer
         // Ed25519Signature2020LdSigner signer = getSigner2020();  // CommandLineVC_json_did:key call
         signer.setCreated(new Date());
         signer.setProofPurpose(LDSecurityKeywords.JSONLD_TERM_ASSERTIONMETHOD);
