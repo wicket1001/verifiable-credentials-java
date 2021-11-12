@@ -64,10 +64,6 @@ public class TestEBSIDiplomaCredential extends CredentialsHelper {
         return verifiableCredential;
     }
 
-    static Ed25519Signature2020LdSigner getSigner2020() {
-        return new Ed25519Signature2020LdSigner(DidKey.privateKey);
-    }
-
     private static EcdsaSecp256k1Signature2019LdSigner getSigner2019(String privateKeyIssuer) {
         ECKey privateKey = ECKey.fromPrivate(Hex.decode(privateKeyIssuer));
 
