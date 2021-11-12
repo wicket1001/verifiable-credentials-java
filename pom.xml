@@ -130,43 +130,6 @@
 				</executions>
 			</plugin>
 
-			<!-- now make the jar chmod +x style executable -->
-			<plugin>
-				<groupId>org.skife.maven</groupId>
-				<artifactId>really-executable-jar-maven-plugin</artifactId>
-				<version>1.4.1</version>
-				<!-- https://github.com/brianm/really-executable-jars-maven-plugin -->
-				<!-- https://skife.org/java/unix/2011/06/20/really_executable_jars.html -->
-				<configuration>
-					<!-- value of flags will be interpolated into the java invocation -->
-					<!-- as "java $flags -jar ..." -->
-					<flags>-Xmx1G</flags>
-
-					<!-- (optional) name for binary executable, if not set will just -->
-					<!-- make the regular jar artifact executable -->
-					<programFile>verifiable-credential.sh</programFile>
-
-					<!-- (optional) support other packaging formats than jar -->
-					<!-- <allowOtherTypes>true</allowOtherTypes> -->
-
-					<!-- (optional) name for a file that will define what script gets -->
-					<!-- embedded into the executable jar.  This can be used to -->
-					<!-- override the default startup script which is -->
-					<!-- `#!/bin/sh -->
-					<!--            -->
-					<!-- exec java " + flags + " -jar "$0" "$@" -->
-					<scriptFile>src/packagingHeader.sh</scriptFile>
-				</configuration>
-
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>really-executable-jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
 
 
 		</plugins>
