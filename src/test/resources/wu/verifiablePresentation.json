@@ -1,0 +1,43 @@
+{
+
+  "@context" : [ "https://www.w3.org/2018/credentials/v1", "https://danubetech.github.io/ebsi4austria-examples/context/essif-schemas-vc-2020-v1.jsonld", "https://w3id.org/security/suites/jws-2020/v1" ],
+
+  "type" : [ "VerifiableCredential", "VerifiableAttestation", "DiplomaCredential" ],
+
+  "issuer" : "did:ebsi:zphYW3YThJQRPbw1LsN2Be5",
+
+  "credentialSubject" : {
+
+    "id" : "did:key:z6MkfFEL9U9KyAU6CN2HZoRJEJkqQeYEyXZKKGPiJQVBupgv",
+
+    "type" : [ "Student" ],
+
+    "studyProgram" : "Master Studies in Computer Science",
+
+    "learningAchievement" : "Master of Science",
+
+    "dateOfAchievement" : "2021-11-16T00:00:00.000Z",
+
+    "eqfLevel" : "http://data.europa.eu/snb/eqf/7",
+
+    "targetFrameworkName" : "European Qualifications Framework for lifelong learning - (2008/C 111/01)"
+
+  },
+
+  "issuanceDate" : "2021-11-15T16:07:02Z",
+
+  "proof" : {
+
+    "type" : "JsonWebSignature2020",
+
+    "created" : "2021-12-07T10:22:44Z",
+
+    "proofPurpose" : "assertionMethod",
+
+    "verificationMethod" : "did:ebsi:zphYW3YThJQRPbw1LsN2Be5#keys-1",
+
+    "jws" : "eyJiNjQiOmZhbHNlLCJjcml0IjpbImI2NCJdLCJhbGciOiJFUzI1NksifQ..j0vm3NrtFyyPuV0BvmUYOGljOVvKsCsKFXvUsyAc6c1tozPcbAP5M5zzBkxgjGAK8EYX6EydQP8nBvYwmoexrw"
+
+  }
+
+}

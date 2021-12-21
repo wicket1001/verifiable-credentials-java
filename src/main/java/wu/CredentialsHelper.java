@@ -1,17 +1,11 @@
 package wu;
 
-import com.apicatalog.jsonld.JsonLdError;
-import com.apicatalog.jsonld.JsonLdErrorCode;
-import com.danubetech.keyformats.crypto.impl.Ed25519_EdDSA_PublicKeyVerifier;
 import com.danubetech.verifiablecredentials.VerifiableCredential;
 import com.danubetech.verifiablecredentials.VerifiablePresentation;
 import com.danubetech.verifiablecredentials.validation.Validation;
 import foundation.identity.jsonld.ConfigurableDocumentLoader;
 import foundation.identity.jsonld.JsonLDException;
-import foundation.identity.jsonld.JsonLDObject;
 import info.weboftrust.ldsignatures.verifier.EcdsaSecp256k1Signature2019LdVerifier;
-import info.weboftrust.ldsignatures.verifier.Ed25519Signature2018LdVerifier;
-import info.weboftrust.ldsignatures.verifier.Ed25519Signature2020LdVerifier;
 import org.bitcoinj.core.ECKey;
 import org.bouncycastle.util.encoders.Hex;
 
@@ -19,15 +13,15 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.List;
 
-import static wu.CredentialsUtil.PUBLIC_KEY_ISSUER;
+import static wu.CredentialsUtil.getPublicKeyIssuer;
 
 public class CredentialsHelper {
     static boolean verify(VerifiablePresentation credential) throws JsonLDException, GeneralSecurityException, IOException {
-        return verify(credential, PUBLIC_KEY_ISSUER);
+        return verify(credential, getPublicKeyIssuer());
     }
 
     static boolean verify(VerifiableCredential credential) throws JsonLDException, GeneralSecurityException, IOException {
-        return verify(credential, PUBLIC_KEY_ISSUER);
+        return verify(credential, getPublicKeyIssuer());
     }
 
     static boolean verify(VerifiablePresentation credential, String pubKey) throws IOException, GeneralSecurityException, JsonLDException {
@@ -66,6 +60,7 @@ public class CredentialsHelper {
              ECKey publicKey = ECKey.fromPublicOnly(pubKey);
 
              EcdsaSecp256k1Signature2019LdVerifier verifier = new EcdsaSecp256k1Signature2019LdVerifier(publicKey);
+             // JsonWebSignature2020LdVerifier v2 = new JsonWebSignature2020LdVerifier(verifier.getVerifier());
              // Ed25519Signature2020LdVerifier verifier = new Ed25519Signature2020LdVerifier(pubKey);  // Da ist ein Typo in Ed25519Signature2020LdVerifier, man muss die neuste Version herunterladen damit es klappt
 
 

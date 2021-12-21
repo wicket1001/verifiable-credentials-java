@@ -11,8 +11,9 @@ import java.nio.file.Path;
 import java.security.GeneralSecurityException;
 import java.util.Map;
 
-import static wu.CredentialsUtil.*;
 import static wu.CredentialsHelper.verify;
+import static wu.CredentialsUtil.getPrivateKeyIssuer;
+import static wu.CredentialsUtil.getPublicKeyIssuer;
 
 @CommandLine.Command(name = "CommandLineVC", version = "CommandLineVC 1.1", mixinStandardHelpOptions = true)
 public class CommandLineVC extends CommandLineHelper implements Runnable {
@@ -52,8 +53,8 @@ public class CommandLineVC extends CommandLineHelper implements Runnable {
         try {
             studentDID = URI.create(studentInputDID);
             CredentialSubject credentialSubject = getCredentialSubject();
-            String privateKey = getPrivateKey(PRIVATE_KEY_ISSUER);
-            String publicKey = getPublicKey(PUBLIC_KEY_ISSUER);
+            String privateKey = getPrivateKey(getPrivateKeyIssuer());
+            String publicKey = getPublicKey(getPublicKeyIssuer());
             URI issuerDID = getIssuerDID(CredentialsUtil.issuerDID);
 
 
@@ -66,12 +67,10 @@ public class CommandLineVC extends CommandLineHelper implements Runnable {
 
                 System.out.println(vc.toJson());
                 if (outputPath != null) {
-                    boolean created = outputPath.toFile().createNewFile();
-                    if (created) {
-                        FileWriter fw = new FileWriter(outputPath.toFile());
-                        fw.write(vc.toJson());
-                        fw.close();
-                    }
+                    outputPath.toFile().createNewFile();
+                    FileWriter fw = new FileWriter(outputPath.toFile());
+                    fw.write(vc.toJson());
+                    fw.close();
                 }
 
                 boolean verified = verify(vc, publicKey);
@@ -103,7 +102,7 @@ public class CommandLineVC extends CommandLineHelper implements Runnable {
         return defaultIssuerDID;
     }
 
-    String getPublicKey(String defaultPubKey) {
+    String getPublicKey(String defaultPubKey) throws IOException {
         if (inputIssuer != null) {
             if (inputIssuer.issuerPubKey != null && !inputIssuer.issuerPubKey.isEmpty()) {
                 return inputIssuer.issuerPubKey;
@@ -112,7 +111,7 @@ public class CommandLineVC extends CommandLineHelper implements Runnable {
         return defaultPubKey;
     }
 
-    String getPrivateKey(String defaultPrivKey) {
+    String getPrivateKey(String defaultPrivKey) throws IOException {
         if (inputIssuer != null) {
             if (inputIssuer.issuerPrivKey != null && !inputIssuer.issuerPrivKey.isEmpty()) {
                 return inputIssuer.issuerPrivKey;

@@ -52,23 +52,23 @@ public class CommandLineVP extends CommandLineHelper implements Runnable {
         try {
             studentDID = URI.create(studentInputDID);
             VerifiableCredential verifiableCredential = CommandLineHelper.getVerifiableCredential(inputClaims);
-            String publicKey = getPublicKey(PUBLIC_KEY_ISSUER);
+            String publicKey = getPublicKey(getPublicKeyIssuer());
 
             if (verifiableCredential != null) {
                 VerifiablePresentation vp = getVerifiablePresentation(verifiableCredential);
 
                 System.out.println(vp.toJson());
                 if (outputPath != null) {
-                    boolean created = outputPath.toFile().createNewFile();
-                    if (created) {
-                        FileWriter fw = new FileWriter(outputPath.toFile());
-                        fw.write(vp.toJson());
-                        fw.close();
-                    }
+                    outputPath.toFile().createNewFile();
+                    FileWriter fw = new FileWriter(outputPath.toFile());
+                    fw.write(vp.toJson());
+                    fw.close();
                 }
 
                 boolean verified = verify(vp, publicKey);
                 if (!verified) {
+                    System.out.println(vp);
+                    System.out.println(publicKey);
                     throw new IllegalStateException("Something has gone wrong with the execution. Could not verify verifiable presentation.");
                 }
             }
@@ -81,7 +81,7 @@ public class CommandLineVP extends CommandLineHelper implements Runnable {
             e.printStackTrace();
             System.exit(1);
         } catch (IllegalStateException e) {
-            System.out.println("There was an error in verifying the newly created VC. Please contact an admin.");
+            System.out.println("There was an error in verifying the newly created VP. Please contact an admin.");
             e.printStackTrace();
             System.exit(1);
         }

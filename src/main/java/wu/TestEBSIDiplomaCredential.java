@@ -1,22 +1,19 @@
 package wu;
 
-import com.danubetech.keyformats.crypto.impl.Ed25519_EdDSA_PrivateKeySigner;
-import com.danubetech.verifiablecredentials.VerifiableCredential;
+import com.danubetech.keyformats.JWK_to_PrivateKey;
+import com.danubetech.keyformats.jose.JWK;
 import com.danubetech.verifiablecredentials.CredentialSubject;
+import com.danubetech.verifiablecredentials.VerifiableCredential;
+import foundation.identity.jsonld.ConfigurableDocumentLoader;
+import foundation.identity.jsonld.JsonLDException;
+import info.weboftrust.ldsignatures.LdProof;
+import info.weboftrust.ldsignatures.jsonld.LDSecurityKeywords;
+import info.weboftrust.ldsignatures.signer.EcdsaSecp256k1Signature2019LdSigner;
 
 import java.io.IOException;
 import java.net.URI;
 import java.security.GeneralSecurityException;
 import java.util.*;
-
-import foundation.identity.jsonld.JsonLDException;
-import foundation.identity.jsonld.ConfigurableDocumentLoader;
-import info.weboftrust.ldsignatures.LdProof;
-import info.weboftrust.ldsignatures.jsonld.LDSecurityKeywords;
-import info.weboftrust.ldsignatures.signer.EcdsaSecp256k1Signature2019LdSigner;
-import info.weboftrust.ldsignatures.signer.Ed25519Signature2020LdSigner;
-import org.bitcoinj.core.ECKey;
-import org.bouncycastle.util.encoders.Hex;
 
 import static wu.CredentialsUtil.*;
 
@@ -40,9 +37,9 @@ public class TestEBSIDiplomaCredential extends CredentialsHelper {
 
         VerifiableCredential verifiableCredential = VerifiableCredential.builder()
                 .contexts(Arrays.asList(
-                        URI.create("https://danubetech.github.io/ebsi4austria-examples/context/essif-schemas-vc-2020-v1.jsonld"),
-                        // URI.create("https://wicket1001.github.io/ebsi4austria-examples/context/essif-schemas-vc-2020-v2.jsonld"),
-                        URI.create("https://www.w3.org/ns/did/v1")
+                        // URI.create("https://danubetech.github.io/ebsi4austria-examples/context/essif-schemas-vc-2020-v1.jsonld")
+                        URI.create("https://wicket1001.github.io/ebsi4austria-examples/context/essif-schemas-vc-2020-v2.jsonld")
+                        // URI.create("https://www.w3.org/ns/did/v1")
                         // URI.create("https://bach.wu.ac.at/static/app/ebsi/wu-schema-vc-2020-v1.jsonld")
                         ))
                 .types(Arrays.asList("VerifiableAttestation", "DiplomaCredential"))
@@ -54,9 +51,7 @@ public class TestEBSIDiplomaCredential extends CredentialsHelper {
         ConfigurableDocumentLoader documentLoader = (ConfigurableDocumentLoader) verifiableCredential.getDocumentLoader();
         documentLoader.setEnableHttps(true);
 
-        EcdsaSecp256k1Signature2019LdSigner signer = getSigner2019(privateKeyIssuer);
-        // Ed25519Signature2020LdSigner signer = getSigner2020();  // TestEBSIDiplomaCredential call, privateKeyIssuer
-        // Ed25519Signature2020LdSigner signer = getSigner2020();  // CommandLineVC_json_did:key call
+        EcdsaSecp256k1Signature2019LdSigner signer = getSigner2019();
         signer.setCreated(new Date());
         signer.setProofPurpose(LDSecurityKeywords.JSONLD_TERM_ASSERTIONMETHOD);
         signer.setVerificationMethod(URI.create(issuerDID.toString() + "#keys-1"));
@@ -64,15 +59,34 @@ public class TestEBSIDiplomaCredential extends CredentialsHelper {
         return verifiableCredential;
     }
 
-    private static EcdsaSecp256k1Signature2019LdSigner getSigner2019(String privateKeyIssuer) {
-        ECKey privateKey = ECKey.fromPrivate(Hex.decode(privateKeyIssuer));
+    /*
+    static Ed25519Signature2020LdSigner getSigner2020() {
+        return new Ed25519Signature2020LdSigner(DidKey.privateKey);
+    }
+     */
 
-        EcdsaSecp256k1Signature2019LdSigner signer = new EcdsaSecp256k1Signature2019LdSigner(privateKey);
-        return signer;
+    private static EcdsaSecp256k1Signature2019LdSigner getSigner2019() {
+        // ECKey privateKey = ECKey.fromPrivate(Hex.decode(privateKeyIssuer));
+
+        // EcdsaSecp256k1Signature2019LdSigner signer = new EcdsaSecp256k1Signature2019LdSigner(privateKey);
+        HashMap<String, Object> keyWU = new HashMap<>();
+        String did = "did:ebsi:z23EQVGi5so9sBwytv6nMXMo";
+        keyWU.put("kty", "EC");
+        keyWU.put("crv", "secp256k1");
+        keyWU.put("x", "XGngxt2DXUbM1l39ktGFHtRoCMca9xw1pdPAS4h98i4");
+        keyWU.put("y", "rqfYMx8T9x47jRMZZmaL60Gxr65EZjYwIqckTSuh6cs");
+        keyWU.put("d", "ZTb36JucH4Xz0qDO84SJWA9wmVGihFAHUyLiIK3RQrQ");
+        keyWU.put("kid", "did:ebsi:z23EQVGi5so9sBwytv6nMXMo#keys-1");
+        try {
+            return new EcdsaSecp256k1Signature2019LdSigner(JWK_to_PrivateKey.JWK_to_secp256k1PrivateKey(JWK.fromMap(keyWU)));
+        } catch (IOException e) {
+            return null;
+        }
+        // return signer;
     }
 
     private static VerifiableCredential getVerifiableCredential(URI studentDID, URI issuerDID, Map<String, Object> claims) throws IOException, GeneralSecurityException, JsonLDException {
-        return getVerifiableCredential(studentDID, issuerDID, claims, PRIVATE_KEY_ISSUER);
+        return getVerifiableCredential(studentDID, issuerDID, claims, getPrivateKeyIssuer());
     }
 
     static Map<String, Object> makeClaims() {

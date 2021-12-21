@@ -1,0 +1,34 @@
+{
+  "@context" : [ "https://www.w3.org/2018/credentials/v1" ],
+  "type" : [ "VerifiablePresentation" ],
+  "holder" : "did:key:z6Mkj1HbjGbfHdZJkPtDXFEJsdwi6f7eaxQw6HgGRh2J6hKQ",
+  "verifiableCredential" : {
+    "@context" : [ "https://www.w3.org/2018/credentials/v1", "https://danubetech.github.io/ebsi4austria-examples/context/essif-schemas-vc-2020-v1.jsonld", "https://w3id.org/security/suites/jws-2020/v1" ],
+    "type" : [ "VerifiableCredential", "VerifiableAttestation", "DiplomaCredential" ],
+    "issuer" : "did:ebsi:zphYW3YThJQRPbw1LsN2Be5",
+    "credentialSubject" : {
+      "id" : "did:key:z6Mkj1HbjGbfHdZJkPtDXFEJsdwi6f7eaxQw6HgGRh2J6hKQ",
+      "type" : [ "Student" ],
+      "studyProgram" : "Master Studies in Computer Science",
+      "learningAchievement" : "Master of Science",
+      "dateOfAchievement" : "2021-11-16T00:00:00.000Z",
+      "eqfLevel" : "http://data.europa.eu/snb/eqf/7",
+      "targetFrameworkName" : "European Qualifications Framework for lifelong learning - (2008/C 111/01)"
+    },
+    "issuanceDate" : "2021-11-15T16:07:02Z",
+    "proof" : {
+      "type" : "JsonWebSignature2020",
+      "created" : "2021-12-08T07:50:35Z",
+      "proofPurpose" : "assertionMethod",
+      "verificationMethod" : "did:ebsi:zphYW3YThJQRPbw1LsN2Be5#keys-1",
+      "jws" : "eyJiNjQiOmZhbHNlLCJjcml0IjpbImI2NCJdLCJhbGciOiJFUzI1NksifQ..tSveLZUtpSEqf89tXgo1cjR5UprFp9anr30IFY9nGrx-XSestF--T8nWT0CeDj4S2T5FalIAZggQFP3oeRiOlQ"
+    }
+  },
+  "proof" : {
+    "type" : "Ed25519Signature2018",
+    "created" : "2021-12-08T07:50:38Z",
+    "proofPurpose" : "authentication",
+    "verificationMethod" : "did:key:z6Mkj1HbjGbfHdZJkPtDXFEJsdwi6f7eaxQw6HgGRh2J6hKQ#z6Mkj1HbjGbfHdZJkPtDXFEJsdwi6f7eaxQw6HgGRh2J6hKQ",
+    "jws" : "eyJiNjQiOmZhbHNlLCJjcml0IjpbImI2NCJdLCJhbGciOiJFZERTQSJ9..Ls6bOHzQKYsCPunbaM-RKJQzVWOvuIq6bPMOLGRnjy55-n1dgkX6qkN2TSJ66cpo1TjtZH5iue-QNMa6LOTVBw"
+  }
+}

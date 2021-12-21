@@ -2,29 +2,29 @@ package wu;
 
 import com.danubetech.verifiablecredentials.VerifiableCredential;
 import com.danubetech.verifiablecredentials.VerifiablePresentation;
+import foundation.identity.jsonld.ConfigurableDocumentLoader;
+import foundation.identity.jsonld.JsonLDException;
+import info.weboftrust.ldsignatures.LdProof;
+import info.weboftrust.ldsignatures.jsonld.LDSecurityKeywords;
+import info.weboftrust.ldsignatures.signer.EcdsaSecp256k1Signature2019LdSigner;
+import org.bitcoinj.core.ECKey;
+import org.bouncycastle.util.encoders.Hex;
 
 import java.io.IOException;
 import java.net.URI;
 import java.security.GeneralSecurityException;
-import java.util.*;
-
-import foundation.identity.jsonld.JsonLDException;
-import foundation.identity.jsonld.ConfigurableDocumentLoader;
-import info.weboftrust.ldsignatures.LdProof;
-import info.weboftrust.ldsignatures.jsonld.LDSecurityKeywords;
-import info.weboftrust.ldsignatures.signer.EcdsaSecp256k1Signature2019LdSigner;
-import info.weboftrust.ldsignatures.signer.Ed25519Signature2020LdSigner;
-import org.bitcoinj.core.ECKey;
-import org.bouncycastle.util.encoders.Hex;
+import java.util.Date;
+import java.util.Map;
 
 import static wu.CredentialsUtil.*;
-import static wu.TestEBSIDiplomaCredential.*;
+import static wu.TestEBSIDiplomaCredential.getVerifiableCredential;
+import static wu.TestEBSIDiplomaCredential.makeClaims;
 
 public class TestEBSIDiplomaPresentation extends CredentialsHelper {
     public static void main(String[] args) throws Throwable {
         Map<String, Object> claims = makeClaims();
 
-        VerifiableCredential vc = getVerifiableCredential(studentDID, issuerDID, claims, PRIVATE_KEY_ISSUER);
+        VerifiableCredential vc = getVerifiableCredential(studentDID, issuerDID, claims, getPrivateKeyIssuer());
 
         VerifiablePresentation vp = getVerifiablePresentation(vc);
         System.out.println(vp.toJson(true));
@@ -42,7 +42,7 @@ public class TestEBSIDiplomaPresentation extends CredentialsHelper {
         ConfigurableDocumentLoader documentLoader = (ConfigurableDocumentLoader) verifiablePresentation.getDocumentLoader();
         documentLoader.setEnableHttps(true);
 
-        ECKey privateKey = ECKey.fromPrivate(Hex.decode(PRIVATE_KEY_STUDENT));
+        ECKey privateKey = ECKey.fromPrivate(Hex.decode(getPrivateKeyStudent()));
 
         EcdsaSecp256k1Signature2019LdSigner signer = new EcdsaSecp256k1Signature2019LdSigner(privateKey);
         // Ed25519Signature2020LdSigner signer = getSignerV2();

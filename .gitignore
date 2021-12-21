@@ -14,6 +14,7 @@ src/main/java/wu/CommandLineVerifier.java
 src/main/java/wu/DIDDocumentLoader.java
 src/main/java/wu/DidKey.java
 src/main/java/wu/TestCredentialVerifier.java
+src/main/java/wu/NewKeys.java
 
 src/packagingHeader.sh
 
